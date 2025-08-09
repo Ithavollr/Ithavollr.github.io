@@ -1,125 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Retro Modern Site</title>
-  <style>
-    :root {
-      --accent: #26ff96;
-      --bg-light: #f0f0f0;
-      --text-light: #000;
-      --bg-dark: #121212;
-      --text-dark: #f0f0f0;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Courier New', Courier, monospace;
-      background-color: var(--bg-light);
-      color: var(--text-light);
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
-    header {
-      padding: 1rem;
-      background-color: var(--accent);
-      color: #000;
-      text-align: center;
-      font-weight: bold;
-      font-size: 1.25rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    }
-
-    h1 {
-      text-align: center;
-      margin: 2rem 0 1rem;
-      font-size: 3rem;
-    }
-
-    .download-btn {
-      display: block;
-      margin: 0 auto;
-      padding: 1rem 2rem;
-      background-color: var(--accent);
-      color: #000;
-      border: none;
-      font-size: 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 4px;
-      box-shadow: 0 0 10px var(--accent);
-      text-align: center;
-      text-decoration: none;
-      width: 200px;
-    }
-
-    .scroll-section {
-      max-width: 800px;
-      margin: 4rem auto 2rem;
-      padding: 2rem;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Parchment_texture.jpg/640px-Parchment_texture.jpg') repeat;
-      background-size: cover;
-      border: 2px solid #d2b48c;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      line-height: 1.6;
-      display: none;
-      animation: fadeIn 1s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Retro Modern Site — Updated</title>
+  <link rel="stylesheet" href="arcade.css">
 </head>
 <body>
-  <header>
-    Welcome to the 90's++
-  </header>
-  <h1>Project Neoretro</h1>
-  <a href="#" class="download-btn">Download Client</a>
+  <header>Welcome to Iðavöllr</header>
+  <h1>Download Client</h1>
 
-  <div class="scroll-section" id="parchment">
-    <p>
-      This is where the magic happens. Our client brings back the golden age of simplicity,
-      with the comfort of modern enhancements. Explore pixel-perfect nostalgia with high-res performance.
-      Runs anywhere, feels like 1998.
-    </p>
-    <p>
-      Instructions, release notes, and lore are all here for the truly devoted.
-      Scroll onward and rediscover the charm.
-    </p>
+  <div class="container">
+    <div class="download-wrap">
+      <a id="downloadBtn" class="download-btn" href="#" role="button" aria-label="Download Client">Download<br>Client</a>
+    </div>
+
+    <!-- sentinel: observed by IntersectionObserver; reveal parchment when it enters view -->
+    <div id="sentinel" class="sentinel" aria-hidden="true"></div>
+
+    <section id="parchment" class="parchment" aria-hidden="true">
+      <h2>Release Notes & Lore</h2>
+      <p>Read here the lore of our world...</p>
+      <p>This site <i>should</i> adapt to system light/dark preference.</p>
+      <p>Progressive enhancement: the reveal uses IntersectionObserver for reliability with a scroll-based fallback for older browsers.</p>
+    </section>
   </div>
 
+  <footer>© retro · Built with only HTML & CSS (+ tiny JS for theme & reveal)</footer>
+
   <script>
-    // Theme adaptation based on browser preference
-    function setTheme() {
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
+    /* Theme adaptation — CSS will handle most cases; keep a small JS listener as a fallback */
+    (function(){
+      function applyTheme(){
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.setAttribute('data-theme','dark');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+        }
+      }
+      applyTheme();
+      if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+    })();
+
+    /* Scroll reveal using IntersectionObserver and a sentinel placed after the button.
+       This is robust (works when layout changes) and keeps the "reveal when you pass the button" behaviour. */
+    (function(){
+      const sentinel = document.getElementById('sentinel');
+      const parchment = document.getElementById('parchment');
+
+      if (!sentinel || !parchment) return;
+
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              parchment.classList.add('visible');
+              parchment.setAttribute('aria-hidden','false');
+              io.disconnect(); // reveal only once
+            }
+          });
+        }, { root: null, threshold: 0.01 });
+        io.observe(sentinel);
       } else {
-        document.body.classList.remove('dark');
+        // fallback for older browsers: simple scroll listener that triggers when button's bottom is above viewport
+        const btn = document.getElementById('downloadBtn');
+        function fallback(){
+          const rect = btn.getBoundingClientRect();
+          if (rect.bottom < 10) {
+            parchment.classList.add('visible');
+            parchment.setAttribute('aria-hidden','false');
+            window.removeEventListener('scroll', fallback);
+          }
+        }
+        window.addEventListener('scroll', fallback);
+        fallback();
       }
-    }
-
-    setTheme();
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', setTheme);
-
-    // Reveal parchment on scroll
-    const parchment = document.getElementById('parchment');
-    window.addEventListener('scroll', () => {
-      const triggerHeight = document.querySelector('.download-btn').offsetTop + 100;
-      if (window.scrollY > triggerHeight) {
-        parchment.style.display = 'block';
-      }
-    });
+    })();
   </script>
 </body>
 </html>

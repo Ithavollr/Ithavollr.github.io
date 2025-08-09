@@ -1,0 +1,215 @@
+:root {
+    --accent-green: #26ff96;
+    /* primary (you provided) */
+    --accent-gray: #e6e6e6;
+    /* light off-gray */
+    --accent-blue: #0099ff;
+    /* 90's electric blue */
+
+    /* light theme bases */
+    --bg-light: #f7f9fb;
+    --text-light: #071022;
+
+    /* dark theme bases */
+    --bg-dark: #04121a;
+    --text-dark: #e6fff4;
+
+    /* parchment variants */
+    --paper-bg-light: #f6e8c3;
+    --paper-text-light: #071022;
+    --paper-bg-dark: #2b2416;
+    --paper-text-dark: #f6e8c3;
+
+    --paper-edge: #d1b37a;
+    /* parchment border */
+
+    /* dashed inner border color for the button (will be overridden by prefers-color-scheme below) */
+    --btn-inner-dash: rgba(0, 0, 0, 0.06);
+}
+
+/* Use system preference when available; JS also keeps a live listener as a fallback */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: var(--bg-dark);
+        --text: var(--text-dark);
+        --paper-bg: var(--paper-bg-dark);
+        --paper-text: var(--paper-text-dark);
+        --btn-inner-dash: rgba(255, 255, 255, 0.06);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: var(--bg-light);
+        --text: var(--text-light);
+        --paper-bg: var(--paper-bg-light);
+        --paper-text: var(--paper-text-light);
+        --btn-inner-dash: rgba(0, 0, 0, 0.06);
+    }
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+    background: var(--bg);
+    color: var(--text);
+    transition: background .25s, color .25s;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Retro header with all three accents in a neon gradient */
+header {
+    padding: 1rem;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background-image: linear-gradient(90deg, var(--accent-blue), var(--accent-gray), var(--accent-green));
+    color: #001;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+h1 {
+    text-align: center;
+    margin: 2rem 0 1rem;
+    font-size: 2.6rem;
+}
+
+/* Centering wrapper */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem 40vh;
+}
+
+/* The button wrapper keeps things tidy */
+.download-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Square Download Button (explicitly square) --- */
+.download-btn {
+    width: 160px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #001;
+    font-weight: 900;
+    font-size: 1rem;
+    text-align: center;
+    user-select: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.04));
+    border: 6px solid rgba(0, 0, 0, 0.14);
+    position: relative;
+    /* for the dashed inner border pseudo element */
+    /* 90s-style offset twin shadows to feel "layered" */
+    box-shadow: 8px 8px 0 var(--accent-gray), -8px -8px 0 var(--accent-blue);
+    transform: translateZ(0);
+    touch-action: manipulation;
+    transition: transform 160ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+
+/* tiny inner dashed border for that 90s era 'decor' */
+.download-btn::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 3px dashed var(--btn-inner-dash);
+    pointer-events: none;
+    border-radius: 4px;
+}
+
+.download-btn:active {
+    box-shadow: 4px 4px 0 var(--accent-gray), -4px -4px 0 var(--accent-blue);
+    transform: translateY(2px);
+}
+
+/* Hover & focus highlight — makes the button glow and lifts it slightly */
+.download-btn:hover,
+.download-btn:focus-visible {
+    box-shadow: 12px 12px 0 var(--accent-gray), -12px -12px 0 var(--accent-blue), 0 0 28px 6px rgba(38, 255, 150, 0.12);
+    transform: translateY(-6px) scale(1.02);
+    border-color: var(--accent-green);
+    outline: none;
+}
+
+.download-btn:focus-visible {
+    box-shadow: 12px 12px 0 var(--accent-gray), -12px -12px 0 var(--accent-blue), 0 0 32px 6px rgba(38, 255, 150, 0.18);
+}
+
+/* A sentinel sits just after the button (JS observes this) */
+.sentinel {
+    height: 1px;
+    width: 100%;
+}
+
+/* --- Parchment scroll (CSS-only visual, animated reveal) --- */
+.parchment {
+    max-width: 760px;
+    margin: 2rem auto;
+    padding: 28px 34px;
+    border-radius: 8px;
+    border: 6px solid var(--paper-edge);
+    background-color: var(--paper-bg);
+    /* faint paper texture made with repeating-linear-gradients */
+    background-image:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.03)),
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.018) 0px, rgba(0, 0, 0, 0.018) 2px, rgba(255, 255, 255, 0.01) 2px, rgba(255, 255, 255, 0.01) 8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.36);
+    color: var(--paper-text);
+    opacity: 0;
+    transform: translateY(30px) scale(0.985);
+    transition: opacity 600ms cubic-bezier(.2, .9, .2, 1), transform 600ms cubic-bezier(.2, .9, .2, 1);
+    position: relative;
+}
+
+/* visible state toggled by JS */
+.parchment.visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* rolled edges using pseudo-elements for subtle scroll feel */
+.parchment::before,
+.parchment::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(255, 255, 255, 0.22));
+    top: -30px;
+    box-shadow: 0 10px 12px rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+}
+
+.parchment::after {
+    bottom: -30px;
+    top: auto;
+    transform: translateX(-50%) rotate(180deg);
+}
+
+footer {
+    text-align: center;
+    margin: 4rem 0 2rem;
+    opacity: 0.85;
+    font-size: .9rem;
+}
+
+/* Responsive tweak */
+@media (max-width:480px){ .download-btn{ width:140px; height:140px } h1{ font-size:1.8rem } .parchment{ margin:1rem; padding:18px } }
