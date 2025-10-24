@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iðavöllr</title>
+  <!-- Favicon - place your pixel art icon as 'favicon.png' in same folder -->
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <style>
+    /* Pixel Art Theme Palette */
+    :root {
+      --sky-blue: #6ECEDA;
+      --cloud-blue: #B2F7EF;
+      --grass-green: #4CAF50;
+      --forest-green: #2E7D32;
+      --earth-brown: #8D6E63;
+      --volcano-grey: #616161;
+      --text-dark: #212121;
+      --button-bg: #4CAF50;
+      --button-hover: #388E3C;
+      --footer-bg: #2E7D32;
+      --footer-text: #FFFFFF;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Courier New', Courier, monospace;
+      image-rendering: pixelated; /* Makes images look blocky */
+    }
+
+    body {
+      background: linear-gradient(to bottom, var(--sky-blue) 0%, var(--cloud-blue) 30%, var(--grass-green) 70%, var(--forest-green) 100%);
+      color: var(--text-dark);
+      line-height: 1.4;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+      font-size: 1rem;
+      /* Disable text smoothing for pixel-perfect look */
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeSpeed;
+    }
+
+    /* Banner */
+    .banner {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 1.5rem 0;
+      letter-spacing: 1px;
+      /* No shadow! */
+    }
+
+    /* Button Container - Vertical Stack */
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin: 2rem 0;
+      align-items: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .btn-label {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+      text-align: center;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: var(--button-bg);
+      color: white;
+      border: 3px solid #2E7D32;
+      border-radius: 0; /* Sharp corners for pixel feel */
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: none; /* No shadow! */
+      text-decoration: none;
+      display: inline-block;
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: var(--button-hover);
+      transform: scale(1.02);
+      border-color: #1B5E20;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      padding: 1.2rem 0;
+      background-color: var(--footer-bg);
+      width: 100%;
+      text-align: center;
+      color: var(--footer-text);
+      font-size: 0.85rem;
+      border-top: 2px solid #1B5E20;
+    }
+
+    footer a {
+      color: #BBDEFB;
+      text-decoration: underline;
+      margin: 0 0.5rem;
+    }
+
+    footer a:hover {
+      color: #E3F2FD;
+    }
+  </style>
+</head>
+<body>
+  <!-- Banner -->
+  <h1 class="banner">Welcome Adventurer!</h1>
+
+  <!-- Buttons -->
+  <div class="button-container">
+    <div>
+      <div class="btn-label">Step 1: Download Prism</div>
+      <a href="#" class="btn">Download Now</a>
+    </div>
+
+    <div>
+      <div class="btn-label">Step 2: Download the Iðavöllr Instance</div>
+      <a href="#" class="btn">Get Instance</a>
+    </div>
+
+    <div>
+      <div class="btn-label">Step 3: Import the instance and run!</div>
+      <a href="#" class="btn">Launch Game</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      <a href="https://github.com/ithavollr" target="_blank">GitHub</a> |
+      <a href="https://discord.com" target="_blank">Discord</a> |
+      © 2025 Iðavöllr — All Rights Reserved
+    </p>
+  </footer>
+</body>
+</html>
