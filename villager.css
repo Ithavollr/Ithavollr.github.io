@@ -124,6 +124,17 @@
     margin: 0.5rem 0;
   }
 
+  .rpg-textbox ol {
+    margin-left: 0;
+    padding-left: 0.2rem; 
+    list-style-position: inside;
+  }
+
+  .rpg-textbox li {
+    margin: 0.5rem 0; 
+    padding: 0;
+  }
+
   /* Footer - Plain Text with Highlighted Background */
   .footer-text {
     margin-top: auto;
