@@ -11,10 +11,10 @@
     --button-bg: #4CAF50;
     --button-hover: #388E3C;
     --footer-text: #FFFFFF;
+    --footer-bg: ##7CCCB0;
     --textbox-bg: #E0F7FA;
     --textbox-border: #0A261F;
     --page-bg: #0A1718;
-    --label-bg: #1B5E20;
   }
 
   * {
@@ -120,6 +120,10 @@
     word-wrap: break-word;
   }
 
+  .rpg-textbox p:first-child {
+    text-align: center;
+  }
+
   .rpg-textbox p {
     margin: 0.5rem 0;
   }
@@ -146,7 +150,7 @@
 
   .footer-highlight {
     display: inline-block;
-    background-color: var(--label-bg);
+    background-color: var(--footer-bg);
     color: var(--footer-text);
     padding: 0.1rem 0.3rem;
     line-height: 1.2;
